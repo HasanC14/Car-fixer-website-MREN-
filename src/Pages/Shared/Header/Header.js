@@ -4,7 +4,7 @@ import logo from "../../../assets/logo.svg";
 const Header = () => {
   return (
     <div>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-100 max-w-screen-xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -42,6 +42,12 @@ const Header = () => {
               <li>
                 <Link to={"/contact"}>Contact</Link>
               </li>
+              <li>
+                <Link to={"/login"}>Login</Link>
+              </li>
+              <li>
+                <Link to={"/register"}>Register</Link>
+              </li>
             </ul>
           </div>
           <Link to={"/"}>
@@ -64,6 +70,12 @@ const Header = () => {
             </li>
             <li>
               <Link to={"/contact"}>Contact</Link>
+            </li>
+            <li>
+              <Link to={"/login"}>Login</Link>
+            </li>
+            <li>
+              <Link to={"/register"}>Register</Link>
             </li>
           </ul>
         </div>

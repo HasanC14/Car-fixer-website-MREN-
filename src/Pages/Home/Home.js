@@ -1,11 +1,15 @@
 import React from "react";
-import Swipper from "../Swipper/Swipper";
+import About from "../About/About";
+import Services from "../Services/Services";
+import Hero from "../Swiper/Hero";
 
 const Home = () => {
   return (
     <div>
       <div className="mt-10">
-        <Swipper></Swipper>
+        <Hero></Hero>
+        <About></About>
+        <Services></Services>
       </div>
     </div>
   );

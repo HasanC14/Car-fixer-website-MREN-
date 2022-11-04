@@ -5,13 +5,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import "./Swipper.css";
+import "./Swiper.css";
 
 // import required modules
 import { Parallax, Pagination, Navigation } from "swiper";
 import { Link } from "react-router-dom";
 
-const Swipper = () => {
+const Hero = () => {
   return (
     <div>
       <Swiper
@@ -34,7 +34,7 @@ const Swipper = () => {
           //chobi upore iche korte chaile etar css er height change korte hobe
           data-swiper-parallax="-23%"
           style={{
-            "background-image": `linear-gradient(to left, rgba(87, 85, 85, 0.52), rgba(10, 10, 10, 0.73)),url(${image})`,
+            backgroundImage: `linear-gradient(to left, rgba(87, 85, 85, 0.52), rgba(10, 10, 10, 0.73)),url(${image})`,
           }}
         ></div>
         <SwiperSlide>
@@ -102,4 +102,4 @@ const Swipper = () => {
   );
 };
 
-export default Swipper;
+export default Hero;

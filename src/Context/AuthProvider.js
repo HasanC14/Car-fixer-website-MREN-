@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -17,9 +18,9 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   //Login with Google
-  const LoginWithGoogle = (provider) => {
+  const LoginWithGoogle = () => {
     setLoading(true);
-    return signInWithPopup(auth, provider);
+    return signInWithPopup(auth, new GoogleAuthProvider());
   };
   //Logout
   const LogOut = () => {

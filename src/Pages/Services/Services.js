@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const Services = () => {
   const [Services, SetServices] = useState([]);
   useEffect(() => {
-    fetch("Services.json")
+    fetch("http://localhost:5000/services")
       .then((res) => res.json())
       .then((data) => SetServices(data));
   }, []);
@@ -19,7 +19,10 @@ const Services = () => {
       </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mt-10">
         {Services.map((Service) => (
-          <div className="card w-96 bg-base-100 shadow-xl image-full">
+          <div
+            className="card w-96 bg-base-100 shadow-xl image-full"
+            key={Service._id}
+          >
             <figure>
               <img src={Service.img} alt="Shoes" />
             </figure>

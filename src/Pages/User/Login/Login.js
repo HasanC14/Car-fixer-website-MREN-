@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoginImage from "../../../assets/images/login/login.svg";
+import { AuthContext } from "../../../Context/AuthProvider";
 const Login = () => {
-  const HandleForm = () => {};
+  const { Login, LoginWithGoogle } = useContext(AuthContext);
+  const [error, setError] = useState();
+  const navigate = useNavigate();
+  // const location = useLocation();
+  // const from = location.state?.from?.pathname || "/";
+  const HandleForm = (event) => {
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    Login(email, password)
+      .then((result) => {
+        console.log(result);
+        alert("Login Successful");
+        form.reset();
+        setError("");
+        //navigate(from, { replace: true });
+        navigate("/");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
+  const HandleGoogle = () => {
+    LoginWithGoogle()
+      .then(() => {
+        //navigate(from, { replace: true });
+        alert("Login Successful");
+        navigate("/");
+        setError("");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
+
   return (
     <div className="grid grid-cols-1 lg:m-36 md:m-16 m-10 md:grid-cols-2">
       <div className="image">
@@ -37,9 +73,13 @@ const Login = () => {
                 </a>
               </div>
             </div>
-            <button className="block w-full p-3 text-center rounded-sm btn">
+            <button
+              type="submit"
+              className="block w-full p-3 text-center rounded-sm btn"
+            >
               Sign in
             </button>
+            <p className="text-center text-red-600">{error}</p>
           </form>
           <div className="flex items-center pt-4 space-x-1">
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
@@ -49,7 +89,11 @@ const Login = () => {
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
           </div>
           <div className="flex justify-center space-x-4">
-            <button aria-label="Log in with Google" className="p-3 rounded-sm">
+            <button
+              aria-label="Log in with Google"
+              className="p-3 rounded-sm"
+              onClick={HandleGoogle}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 32 32"

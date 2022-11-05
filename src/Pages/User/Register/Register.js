@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginImage from "../../../assets/images/login/login.svg";
+import { AuthContext } from "../../../Context/AuthProvider";
 const Register = () => {
+  const { Register, UpdateUser } = useContext(AuthContext);
+  const [error, setError] = useState();
+  const navigate = useNavigate();
   const HandleForm = (event) => {
     event.preventDefault();
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name, email, password);
+    Register(email, password)
+      .then(() => {
+        alert("Register Successful");
+        form.reset();
+        setError("");
+        //navigate(from, { replace: true });
+        navigate("/");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
   return (
     <div className="grid grid-cols-1 lg:m-36 md:m-16 m-10 md:grid-cols-2">
@@ -48,9 +63,13 @@ const Register = () => {
                 className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
               />
             </div>
-            <button className="block w-full p-3 text-center rounded-sm btn">
+            <button
+              type="submit"
+              className="block w-full p-3 text-center rounded-sm btn"
+            >
               Sign up
             </button>
+            <p className="text-center text-red-600">{error}</p>
           </form>
           <div className="flex items-center pt-4 space-x-1">
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>

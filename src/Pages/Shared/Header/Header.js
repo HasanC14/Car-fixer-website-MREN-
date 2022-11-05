@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/logo.svg";
+import { AuthContext } from "../../../Context/AuthProvider";
 const Header = () => {
+  const { User, LogOut } = useContext(AuthContext);
+  const HandleLogout = () => {
+    LogOut()
+      .then(() => {
+        alert("Logout Successful");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div>
       <div className="navbar bg-base-100 max-w-screen-xl mx-auto">
@@ -42,11 +53,23 @@ const Header = () => {
               <li>
                 <Link to={"/contact"}>Contact</Link>
               </li>
+              {User ? (
+                ""
+              ) : (
+                <>
+                  <li>
+                    <Link to={"/login"}>Login</Link>
+                  </li>
+                  <li>
+                    <Link to={"/register"}>Register</Link>
+                  </li>
+                </>
+              )}
+
               <li>
-                <Link to={"/login"}>Login</Link>
-              </li>
-              <li>
-                <Link to={"/register"}>Register</Link>
+                <Link to={"/appointment"} className="btn">
+                  Appointment
+                </Link>
               </li>
             </ul>
           </div>
@@ -72,17 +95,34 @@ const Header = () => {
               <Link to={"/contact"}>Contact</Link>
             </li>
             <li>
-              <Link to={"/login"}>Login</Link>
+              <Link to={"/appointment"}>Appointment</Link>
             </li>
-            <li>
-              <Link to={"/register"}>Register</Link>
-            </li>
+
+            {User ? (
+              ""
+            ) : (
+              <>
+                <li>
+                  <Link to={"/login"}>Login</Link>
+                </li>
+                <li>
+                  <Link to={"/register"}>Register</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
         <div className="navbar-end">
-          <Link to={"/appointment"} className="btn">
-            Appointment
-          </Link>
+          {User ? (
+            <>
+              <p>{User.displayName}</p>
+              <button className="btn ml-5" onClick={HandleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

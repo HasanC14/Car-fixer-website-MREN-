@@ -95,7 +95,7 @@ const Header = () => {
               <Link to={"/contact"}>Contact</Link>
             </li>
             <li>
-              <Link to={"/appointment"}>Appointment</Link>
+              <Link to={"/orders"}>Orders</Link>
             </li>
 
             {User ? (

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   const [Services, SetServices] = useState([]);
@@ -32,9 +33,11 @@ const Services = () => {
                 {Service.description.slice(1, 100) + "..."}
               </p>
               <div className="card-actions justify-end ">
-                <button className="btn w-full text-white">
-                  Price: ${Service.price}
-                </button>
+                <Link to={`/services/${Service._id}`}>
+                  <button className="btn  text-white">
+                    Price: ${Service.price}
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

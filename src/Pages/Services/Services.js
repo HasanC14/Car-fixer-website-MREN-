@@ -3,11 +3,31 @@ import { Link } from "react-router-dom";
 
 const Services = () => {
   const [Services, SetServices] = useState([]);
+  const [count, SetCount] = useState([]);
+  const [CurrentPage, SetCurrentPage] = useState(0); //page
+  const [PerPageData, SetPerPageData] = useState(2); //size
+  const PageNeeded = Math.ceil(count / PerPageData);
   useEffect(() => {
     fetch("http://localhost:5000/services")
       .then((res) => res.json())
-      .then((data) => SetServices(data));
+      .then((data) => {
+        let { count, services } = data;
+        SetCount(count);
+        SetServices(services);
+      });
   }, []);
+  useEffect(() => {
+    fetch(
+      `http://localhost:5000/services?CurrentPage=${CurrentPage}&PerPageData=${PerPageData}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        let { count, services } = data;
+        SetCount(count);
+        SetServices(services);
+      });
+  }, [CurrentPage, PerPageData]);
+  //dependency mane egula change holei effect hobe mane API e hit korbe
 
   return (
     <div className="mt-10 text-white">
@@ -42,6 +62,29 @@ const Services = () => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="btn-group flex justify-center mt-5 mb-5">
+        {[...Array(PageNeeded).keys()].map((index) => (
+          <>
+            <button
+              key={index}
+              className={`btn btn-md ${CurrentPage === index && "btn-active"}`}
+              onClick={() => SetCurrentPage(index)}
+            >
+              {index + 1}
+            </button>
+          </>
+        ))}
+        <select
+          className="text-black"
+          onChange={(event) => SetPerPageData(event.target.value)}
+        >
+          <option value="2" selected>
+            2
+          </option>
+          <option value="3">3</option>
+          <option value="6">6</option>
+        </select>
       </div>
     </div>
   );

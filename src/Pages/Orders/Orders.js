@@ -4,7 +4,7 @@ import { AuthContext } from "../../Context/AuthProvider";
 const Orders = () => {
   const { User } = useContext(AuthContext);
   const [Orders, setOrders] = useState([]);
-
+  console.log(Orders.status);
   useEffect(() => {
     fetch(`http://localhost:5000/orders/?email=${User.email}`)
       .then((res) => res.json())
@@ -38,6 +38,7 @@ const Orders = () => {
         if (data.modifiedCount > 0) {
           const RemainingOrders = Orders.filter((odr) => odr._id !== id);
           const Approving = Orders.find((odr) => odr._id === id);
+          console.log(Approving);
           Approving.status = "Approved";
           const newOrders = [Approving, ...RemainingOrders];
           setOrders(newOrders);
@@ -82,7 +83,7 @@ const Orders = () => {
                     className="btn btn-ghost btn-xs"
                     onClick={() => HandleStatus(order._id)}
                   >
-                    {Orders.status ? Orders.status : "Pending"}
+                    {order.status ? order.status : "Pending"}
                   </button>
                 </th>
               </tr>

@@ -1,9 +1,10 @@
+import userEvent from "@testing-library/user-event";
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import LoginImage from "../../../assets/images/login/login.svg";
 import { AuthContext } from "../../../Context/AuthProvider";
 const Login = () => {
-  const { Login, LoginWithGoogle } = useContext(AuthContext);
+  const { Login, LoginWithGoogle, User } = useContext(AuthContext);
   const [error, setError] = useState();
   const navigate = useNavigate();
   // const location = useLocation();
@@ -15,12 +16,24 @@ const Login = () => {
     const password = form.password.value;
     Login(email, password)
       .then((result) => {
-        console.log(result);
-        alert("Login Successful");
-        form.reset();
-        setError("");
-        //navigate(from, { replace: true });
-        navigate("/");
+        const user = result.user;
+        console.log(user.email);
+        const currentUser = { email: user.email };
+        fetch("http://localhost:5000/jwt", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(currentUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            localStorage.setItem("Token", data.token);
+            navigate("/");
+            alert("Login Successful");
+            form.reset();
+            setError("");
+          });
+
+        // //navigate(from, { replace: true });
       })
       .catch((error) => {
         setError(error.message);

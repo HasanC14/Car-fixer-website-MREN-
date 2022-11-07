@@ -2,12 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 
 const Orders = () => {
-  const { User } = useContext(AuthContext);
+  const { User, LogOut } = useContext(AuthContext);
   const [Orders, setOrders] = useState([]);
   console.log(Orders.status);
   useEffect(() => {
-    fetch(`http://localhost:5000/orders/?email=${User.email}`)
-      .then((res) => res.json())
+    fetch(`http://localhost:5000/orders/?email=${User.email}`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("Token")}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          LogOut();
+        }
+        return res.json();
+      })
       .then((data) => setOrders(data));
   }, [User?.email]);
 
